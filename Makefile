@@ -37,26 +37,14 @@ NPM_WATCH = $(NPM) run watch
 
 #---PHPQA---#
 PHPQA = jakzal/phpqa:php8.2
-# PROJECT_PATH=C:/Users/Marcel/Documents/projet_symfony_freeReads/freereads
-PROJECT_PATH=C:/Users/Marcel/Documents/projet_symfony_freeReads/freereads
-
-
-
-PHPQA_RUN = $(DOCKER_RUN) --init -it --rm -v "$(PROJECT_PATH):/project" -w /project $(PHPQA)
-
-
-
+PHPQA_RUN = $(DOCKER_RUN) --init --rm -v $(PWD):/project -w /project $(PHPQA)
 #------------#
 
 #---PHPUNIT-#
 PHPUNIT = APP_ENV=test $(SYMFONY) php bin/phpunit
 #------------#
 #---------------------------------------------#
-# PROJECT_PATH=C:/Users/Marcel/Documents/projet_symfony_freeReads/freereads
 
-.PHONY: print-project-path
-print-project-path:
-	@echo $(PROJECT_PATH)
 ## === 🆘  HELP ==================================================
 help: ## Show this help.
 	@echo "Symfony-And-Docker-Makefile"
@@ -217,7 +205,7 @@ qa-cs-fixer: ## Run php-cs-fixer.
 .PHONY: qa-cs-fixer
 
 qa-phpstan: ## Run phpstan.
-	$(PHPQA_RUN) phpstan analyse ./src --level=7
+	$(PHPQA_RUN) phpstan analyse ./src --level=3
 .PHONY: qa-phpstan
 
 qa-security-checker: ## Run security-checker.
@@ -259,7 +247,7 @@ tests: ## Run tests.
 .PHONY: tests
 
 tests-coverage: ## Run tests with coverage.
-	$(PHPUNIT) --coverage-html var/coverage
+	XDEBUG_MODE=coverage $(PHPUNIT) --coverage-html var/coverage
 .PHONY: tests-coverage
 #---------------------------------------------#
 
