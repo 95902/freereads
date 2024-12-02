@@ -1,0 +1,77 @@
+name: Pipeline-CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  pipeline:
+    name: CI Pipeline
+    runs-on: ubuntu-latest
+    container: jakzal/phpqa:php8.2
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Cache composer dependencies
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      # Install Composer Dependencies
+      - name: Install Composer Dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      # Security Check
+      - name: Security Check
+        run: |
+          composer require --dev enlightn/security-checker
+          ./vendor/bin/security-checker security:check composer.lock
+        continue-on-error: false
+
+      # PHP Code Standards
+      - name: PHP-CS-Fixer
+        run: |
+          composer require friendsofphp/php-cs-fixer --dev
+          ./vendor/bin/php-cs-fixer fix ./src --dry-run --rules=@Symfony --verbose
+        continue-on-error: true
+
+      - name: PHP Stan
+        run: |
+          composer require phpstan/phpstan phpstan/phpstan-symfony --dev
+          ./vendor/bin/phpstan analyse ./src -l3
+        continue-on-error: true
+
+      - name: PHP CPD (Code Duplication)
+        run: |
+          composer require sebastian/phpcpd --dev
+          ./vendor/bin/phpcpd ./src --exclude './src/Controller/Admin/' --exclude './src/Entity'
+        continue-on-error: true
+
+      # Lint YAML, Twig, and Validate Doctrine Schema
+      - name: Lint YAML Files
+        run: ./bin/console lint:yaml config --parse-tags
+        continue-on-error: true
+
+      - name: Lint Twig Templates
+        run: ./bin/console lint:twig templates --env=prod
+        continue-on-error: true
+
+      - name: Validate Doctrine Schema
+        run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+        continue-on-error: true
+
+      # PHP Unit Tests
+      - name: Run PHP Unit Tests
+        run: |
+          composer require --dev symfony/phpunit-bridge
+          ./bin/phpunit
+        continue-on-error: false
