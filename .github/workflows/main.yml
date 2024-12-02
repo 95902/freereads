@@ -55,6 +55,10 @@ jobs:
           composer require sebastian/phpcpd --dev
           ./vendor/bin/phpcpd ./src --exclude './src/Controller/Admin/' --exclude './src/Entity'
         continue-on-error: true
+        
+        # Lint  permission
+      - name: Set execute permission for Symfony console
+        run: chmod +x ./bin/console
 
       # Lint YAML, Twig, and Validate Doctrine Schema
       - name: Lint YAML Files
