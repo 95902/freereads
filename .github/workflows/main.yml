@@ -72,8 +72,11 @@ jobs:
       - name: Validate Doctrine Schema
         run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
         continue-on-error: true
-
       # PHP Unit Tests
+
+      - name: Set execute permissions for PHPUnit
+        run: chmod +x ./bin/phpunit
+     
       - name: Run PHP Unit Tests
         run: |
           composer require --dev symfony/phpunit-bridge
