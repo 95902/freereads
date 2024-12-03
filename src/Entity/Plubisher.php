@@ -50,5 +50,4 @@ class Plubisher
 
         return $this;
     }
-
 }
