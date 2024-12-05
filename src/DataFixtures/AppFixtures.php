@@ -62,8 +62,8 @@ class AppFixtures extends Fixture
             ->setIsbn10($faker->isbn10())
             ->setIsbn13($faker->isbn13())
             ->setPageCount($faker->numberBetween(100, 1000))
-            ->setThumbail($faker->imageUrl(200, 300))
-            ->setSmallThumbail($faker->imageUrl(100, 150))
+            ->setThumbail('https://picsum.photos/200/300')
+            ->setSmallThumbail('https://picsum.photos/100/150')
             ->addAuthor($faker->randomElement($authors))
             ->addPublisher($faker->randomElement($publishers))
             ;
