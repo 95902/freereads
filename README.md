@@ -27,7 +27,7 @@
 
    # Commande `app:create-admin`
 
-## **Description**
+## **app:create-admin**
 La commande `app:create-admin` permet de créer un utilisateur administrateur dans l'application Symfony avec une adresse e-mail, un mot de passe, et éventuellement un pseudo spécifiés.
 
 ---
