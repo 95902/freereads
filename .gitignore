@@ -24,3 +24,11 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 .php-cs-fixer.cache
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+node_modules/.

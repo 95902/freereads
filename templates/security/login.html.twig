@@ -1,37 +1,97 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in!
+{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+	<form method="post">
+		{% if error %}
+			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+		<div class="flex min-h-full  flex-col justify-center px-6 py-12 lg:px-8">
+			<div class="sm:mx-auto sm:w-full sm:max-w-sm">
+				<img class="mx-auto h-10 w-auto" src="{{ asset('logo/_e275f1b2-c45a-4fff-80ad-b464f9f401bb.jpg')}}" alt="Your Company">
+				{% if app.user %}
+					<h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+						Vous ête connecter
+						{{ app.user.userIdentifier }}
+					</h2>
+					<div class="inline-flex rounded-md shadow-sm" role="group">
+						<button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+							<svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+								<path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+							</svg>
+							<a href="{{ path('app_profile') }}">Profile
+							</a>
+						</button>
+                        {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+						<button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+							<svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 20 20">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"/>
+							</svg>
+							<a href="{{ path('admin') }}">Admin
+						</a>
+						</button>
+                        {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+						<button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+							<svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+								<path d="M16.24 7.76a1 1 0 1 1 1.42-1.42l4.59 4.58a1 1 0 0 1 0 1.42l-4.59 4.58a1 1 0 0 1-1.42-1.42L18.34 13H9a1 1 0 1 1 0-2h9.34l-2.1-2.24ZM5 3h8a1 1 0 0 1 0 2H6v14h7a1 1 0 0 1 0 2H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
+							</svg>
+							<a href="{{ path('app_logout') }}">Déconnexion
+						</a>
+						</button>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+					</div>
 
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
-    </div>
+				</div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+			{% else %}
+				<h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Connectez-vous à votre compte</h2>
+			</div>
+
+			<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm space-y-6">
+				<div>
+					<label for="email" class="block text-sm/6 font-medium text-gray-900">Adresse email</label>
+					<div class="mt-2">
+						<input type="email" name="email" value="{{ last_username }}" id="inputEmail" autocomplete="email" required autofocus class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+					</div>
+				</div>
+
+				<div>
+					<div class="flex items-center justify-between">
+						<label for="password" class="block text-sm/6 font-medium text-gray-900">Mot de passe</label>
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+					</div>
+					<div class="mt-2">
+						<input type="password" name="password" id="inputPassword" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+					</div>
+				</div>
+				<div class="checkbox mb-3">
+					<label>
+						<input type="checkbox" name="_remember_me">
+                Souviens-toi de moi
+					</label>
+				</div>
+
+				<div>
+					<button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+				</div>
+
+				{# <p class="mt-10 text-center text-sm/6 text-gray-500">
+									Not a member?
+									<a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a>
+								</p> #}
+			</div>
+		</div>
+	{% endif %}
 </form>
-{% endblock %}
+<!--
+	  This example requires updating your template:
+	
+	  ```
+	  <html class="h-full bg-white">
+	  <body class="h-full">
+	  ```
+	-->{% endblock %}
