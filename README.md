@@ -24,3 +24,16 @@
    ```bash
    git clone https://github.com/votre-utilisateur/votre-repo.git
    cd votre-repo
+
+   # Commande `app:create-admin`
+
+## **Description**
+La commande `app:create-admin` permet de créer un utilisateur administrateur dans l'application Symfony avec une adresse e-mail, un mot de passe, et éventuellement un pseudo spécifiés.
+
+---
+
+## **Usage**
+```bash
+symfony console app:create-admin <email> <password> <pseudo>
+
+symfony console app:create-admin admin2@test.com azertyuiop admin2
