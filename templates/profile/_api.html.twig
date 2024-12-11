@@ -1,0 +1,16 @@
+{% if search.items is defined %}
+    {% for book in search.items %}
+        <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+            <h3 class="text-base font-semibold leading-6 text-gray-900">{{ book.volumeInfo.title }}</h3>
+            {% if book.volumeInfo.imageLinks is defined %}
+                <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="book cover">
+            {% endif %}
+            {% if book.volumeInfo.authors is defined %}
+                {% for author in book.volumeInfo.authors %}
+                    <p>{{ author }}</p>
+                {% endfor %}
+            {% endif %}
+            <a href="{{ path('app_profile_search_add', {'id': book.id}) }}">Ajouter à ma liste</a>
+        </div>
+    {% endfor %}
+{% endif %}
