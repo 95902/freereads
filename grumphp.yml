@@ -1,9 +1,9 @@
 grumphp:
     tasks: 
         make:
-            make_file: Makefile
-            task: before-commit
-            triggered_by: [php, yml, md]
+            # make_file: Makefile
+            # task: before-commit
+            # triggered_by: [php, yml, md]
         git_commit_message:
             allow_empty_message: false
             enforce_capitalized_subject: false

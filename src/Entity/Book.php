@@ -40,10 +40,10 @@ class Book
     #[ORM\Column(nullable: true)]
     private ?int $pageCount = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $smallThumbail = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $thumbail = null;
 
     /**

@@ -19,9 +19,9 @@
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "build": "webpack --config=Scripts/config/webpack.prod.js"
+    "build": "encore production --progress"
   },
   "dependencies": {
-    "htmx.org": "^1.9.6"
+    "htmx.org": "^2.0.3"
   }
 }
